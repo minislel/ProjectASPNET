@@ -1,6 +1,8 @@
-﻿
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core;
+@model IPagedList<ProjectASPNET.Models.CustomerViewModel>
 
-@model IEnumerable<ProjectASPNET.Models.Customer>
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -10,18 +12,18 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
+			<th>
+				@Html.DisplayNameFor(model => model.First().CustomerId)
 			</th>
 			<th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-				@Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
+				@Html.DisplayNameFor(model => model.First().FirstName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.First().LastName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.First().CountryName)
+			</th>
         </tr>
     </thead>
     <tbody>
@@ -38,8 +40,21 @@
 					@Html.DisplayFor(modelItem => item.LastName)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Email)
+					@Html.DisplayFor(modelItem => item.CountryName)
 				</td>
 			</tr>
 		}
 </table>
+<div style="margin: 10px">
+	@Html.PagedListPager(Model, page => Url.Action("Clients", new { page }), new PagedListRenderOptions
+{
+	UlElementClasses = new[] { "pagination", "justify-content-center" },
+	LiElementClasses = new[] { "page-item" },
+	PageClasses = new[] { "page-link" },
+	ActiveLiElementClass = "active",
+	LinkToPreviousPageFormat = "Previous",
+	LinkToNextPageFormat = "Next",
+	LinkToLastPageFormat = ">|",
+	LinkToFirstPageFormat = "|<"
+})
+</div>
