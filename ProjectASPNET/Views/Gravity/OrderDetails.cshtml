@@ -1,0 +1,65 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core;
+@model ProjectASPNET.Models.OrderDetailsViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+<form>
+    <label for="Orderid">Order ID:</label>
+    <input type="text" name="Orderid" value="@Model.OrderId" disabled />
+    <br />
+    <label for="OrderDate">Order Date:</label>
+    <input type="text" name="OrderDate" value="@Model.OrderDate" disabled />
+    <br />
+    <label for="CustomerId">Customer ID:</label>
+    <input type="text" name="CustomerId" value="@Model.CustomerId" disabled />
+    <br />
+    <label for="FirstName">First Name:</label>
+    <input type="text" name="FirstName" value="@Model.CustomerFirstName" disabled />
+    <br />
+    <label for="LastName">Last Name:</label>
+    <input type="text" name="LastName" value="@Model.CustomerLastName" disabled />
+    <br />
+    <label for="StreetName">Street:</label>
+    <input type="text" name="StreetName" value="@Model.DestAddress.StreetName" disabled />
+    <br />
+    <label for="StreetNumber">Street Number:</label>
+    <input type="text" name="StreetNumber" value="@Model.DestAddress.StreetNumber" disabled />
+    <br />
+    <label for="City">City:</label>
+    <input type="text" name="City" value="@Model.DestAddress.City" disabled />
+    <br />
+    <label for="Country">Country:</label>
+    <input type="text" name="Country" value="@Model.CountryName" disabled />
+    <br />
+    <table>
+        <thead>
+			<tr>
+				<th>Book ID</th>
+				<th>Book Name</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+            @foreach (var item in Model.BookWithPriceAndTitle)
+			{
+				<tr>
+					<td>@item.Key</td>
+
+					<td>@item.Value[0]</td>
+                    <td>@item.Value[1]</td>
+
+				</tr>
+			}
+		</tbody>
+    </table>
+
+    
+
+</form>

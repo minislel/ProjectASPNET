@@ -24,6 +24,9 @@
 			<th>
 				@Html.DisplayNameFor(model => model.First().CountryName)
 			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.First().orderCount)
+			</th>
         </tr>
     </thead>
     <tbody>
@@ -42,10 +45,19 @@
 				<td>
 					@Html.DisplayFor(modelItem => item.CountryName)
 				</td>
+				
+				<td>
+					<a href="@Url.Action("Orders", new { customerId = item.CustomerId })">
+						@Html.DisplayFor(modelItem => item.orderCount)
+					</a>
+				</td>
+				
+
 			</tr>
 		}
 </table>
-<div style="margin: 10px">
+
+<div>
 	@Html.PagedListPager(Model, page => Url.Action("Clients", new { page }), new PagedListRenderOptions
 {
 	UlElementClasses = new[] { "pagination", "justify-content-center" },
@@ -58,3 +70,6 @@
 	LinkToFirstPageFormat = "|<"
 })
 </div>
+<a class="btn btn-primary mx-auto" asp-action="Create">
+	Create new
+</a>
