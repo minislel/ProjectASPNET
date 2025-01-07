@@ -10,7 +10,7 @@
 
 
 
-<form>
+
     <label for="Orderid">Order ID:</label>
     <input type="text" name="Orderid" value="@Model.OrderId" disabled />
     <br />
@@ -38,7 +38,7 @@
     <label for="Country">Country:</label>
     <input type="text" name="Country" value="@Model.CountryName" disabled />
     <br />
-    <table>
+    <table class="table">
         <thead>
 			<tr>
 				<th>Book ID</th>
@@ -51,15 +51,34 @@
 			{
 				<tr>
 					<td>@item.Key</td>
-
 					<td>@item.Value[0]</td>
                     <td>@item.Value[1]</td>
-
 				</tr>
 			}
 		</tbody>
     </table>
-
-    
-
+<form asp-action="AddOrderHistory" method="post">
+    <input type="hidden" name="OrderId" value="@Model.OrderId" />
+    <select id="statusSelect" name="StatusId">
+            @foreach(var item in Model.statuslist)
+            {
+            if (item.StatusId == Model.StatusId)
+            {
+                <option value="@item.StatusId" selected="selected"> @item.StatusId - @item.StatusValue</option>
+            }
+            else
+            {
+                <option value="@item.StatusId"> @item.StatusId - @item.StatusValue</option>
+            }
+        }
+    </select>
+	<button type="submit">Update</button>
+	<a href="@Url.Action("Orders", new { customerId = Model.CustomerId })">Back to Orders</a>
 </form>
+<script>
+    if (@Model.StatusId >= 4) 
+    {
+        document.getElementById("statusSelect").disabled = true;
+    }
+    
+</script>

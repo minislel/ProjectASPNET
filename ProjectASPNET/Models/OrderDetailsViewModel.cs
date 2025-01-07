@@ -12,5 +12,13 @@
         public int Status { get; set; }
         public Dictionary<int?, List<string>> BookWithPriceAndTitle { get; set; }
         public string CountryName { get; set; }
+        public int? StatusId { get; set; }
+        public IEnumerable<status> statuslist { get; set; }
+       
+    }
+    public class status
+    {
+        public int StatusId { get; set; }
+        public string StatusValue { get; set; }
     }
 }

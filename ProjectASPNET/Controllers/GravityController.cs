@@ -69,7 +69,8 @@ namespace ProjectASPNET.Controllers
 
             return View(list);
         }
-        public async Task<IActionResult> OrderDetails(int orderId = 1)
+        [HttpGet]
+        public async Task<IActionResult> OrderDetails(int orderId)
         {
             var details = (from order in _context.CustOrders
                           join customer in _context.Customers
@@ -101,11 +102,42 @@ namespace ProjectASPNET.Controllers
                                    book.Title,
                                    orderLine.Price
                                }).ToListAsync();
+            details.StatusId =  _context.OrderHistories
+    .Where(x => x.OrderId == orderId)
+    .OrderByDescending(x => x.StatusDate)
+    .Select(x => x.StatusId)
+    .First();
+            details.statuslist = await (from statuses in _context.OrderStatuses
+                                    orderby statuses.StatusId
+                                    select new status
+                                    {
+                                       StatusId = statuses.StatusId,
+                                       StatusValue = statuses.StatusValue
+                                    }
+                                    ).ToListAsync();
             foreach (var line in lines)
             {
                 details.BookWithPriceAndTitle.Add(line.BookId, new List<string>{ line.Title, line.Price.ToString() });
             }
+
             return View(details);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddOrderHistory(OrderHistory model)
+        { 
+            var newHistoryId = (from history in _context.OrderHistories
+                                select history.HistoryId).Max();
+                                
+            var newHistory = new OrderHistory
+            {
+                HistoryId = newHistoryId + 1,
+                OrderId = model.OrderId,
+                StatusId = model.StatusId,
+                StatusDate = DateTime.Now
+            };
+            _context.OrderHistories.Add(newHistory);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("OrderDetails", new { orderId = model.OrderId });
         }
     }
 
