@@ -41,7 +41,7 @@ namespace ProjectASPNET.Controllers
                             };
 
 
-            var model = _context.Customers.OrderBy(x => x.CustomerId).ToPagedList(page, pagesize);
+            
             var list = customers.ToPagedList(page, pagesize);
 
             return View(list);
@@ -61,7 +61,6 @@ namespace ProjectASPNET.Controllers
                              OrderId = order.OrderId,
                              OrderDate = order.OrderDate,
                              CustomerId = order.CustomerId
-
                          };
 
             var model = _context.CustOrders.OrderBy(x => x.OrderId).ToPagedList(page, pagesize);
