@@ -18,7 +18,7 @@ namespace ProjectASPNET.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Clients(int page = 1, int pagesize = 10)
+        public async Task<IActionResult> Clients(int page = 1, int pagesize = 20)
         {
             var customers = from customer in _context.Customers
                             join customerAddress in _context.CustomerAddresses
@@ -41,12 +41,12 @@ namespace ProjectASPNET.Controllers
                             };
 
 
-            
+            var model = _context.Customers.OrderBy(x => x.CustomerId).ToPagedList(page, pagesize);
             var list = customers.ToPagedList(page, pagesize);
 
             return View(list);
         }
-        public async Task<IActionResult> Orders(int customerId = 1, int page = 1, int pagesize = 10)
+        public async Task<IActionResult> Orders(int customerId = 1, int page = 1, int pagesize = 20)
         {
             var orders = from order in _context.CustOrders
                          join customer in _context.Customers
